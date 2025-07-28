@@ -68,7 +68,7 @@ export function DateFilter({ onDateRangeChange }: DateFilterProps) {
   return (
     <div className="flex items-center space-x-2">
       <Select value={presetRange} onValueChange={handlePresetChange}>
-        <SelectTrigger className="w-[140px]">
+        <SelectTrigger className="w-[120px] sm:w-[140px]">
           <SelectValue placeholder="Select range" />
         </SelectTrigger>
         <SelectContent>

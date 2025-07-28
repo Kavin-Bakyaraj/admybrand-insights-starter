@@ -217,16 +217,16 @@ export function DataTable({ data, title }: DataTableProps) {
       transition={{ delay: 0.4, duration: 0.3 }}
     >
       <Card className="border-0 shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
           <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 w-full sm:w-auto">
             <Input
               placeholder="Filter campaigns..."
               value={(table.getColumn("campaign")?.getFilterValue() as string) ?? ""}
               onChange={(event) =>
                 table.getColumn("campaign")?.setFilterValue(event.target.value)
               }
-              className="max-w-sm"
+              className="flex-1 sm:max-w-sm"
             />
             <Button
               variant="outline"
@@ -239,8 +239,8 @@ export function DataTable({ data, title }: DataTableProps) {
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="rounded-md border">
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -289,8 +289,8 @@ export function DataTable({ data, title }: DataTableProps) {
               </TableBody>
             </Table>
           </div>
-          <div className="flex items-center justify-between space-x-2 py-4">
-            <div className="text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-2 p-4 border-t">
+            <div className="text-sm text-muted-foreground text-center sm:text-left">
               Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{" "}
               {Math.min(
                 (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
@@ -298,7 +298,7 @@ export function DataTable({ data, title }: DataTableProps) {
               )}{" "}
               of {table.getFilteredRowModel().rows.length} entries
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 sm:space-x-2">
               <Button
                 variant="outline"
                 size="sm"
