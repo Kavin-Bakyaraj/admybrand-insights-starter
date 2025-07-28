@@ -33,130 +33,230 @@ export interface TableData {
 export const metricsData: MetricData[] = [
   {
     label: "Total Revenue",
-    value: "$124,563",
-    change: 12.5,
+    value: "$2,547,892",
+    change: 18.2,
     trend: "up",
     icon: "DollarSign"
   },
   {
     label: "Active Users",
-    value: "8,429",
-    change: -2.3,
+    value: "64,429",
+    change: -3.1,
     trend: "down",
     icon: "Users"
   },
   {
     label: "Conversion Rate",
-    value: "3.24%",
-    change: 5.1,
+    value: "4.67%",
+    change: 12.5,
     trend: "up",
     icon: "TrendingUp"
   },
   {
     label: "Avg. Session Duration",
-    value: "4m 32s",
-    change: 0.8,
-    trend: "neutral",
+    value: "6m 42s",
+    change: 8.3,
+    trend: "up",
     icon: "Clock"
+  },
+  {
+    label: "Total Orders",
+    value: "12,847",
+    change: 15.7,
+    trend: "up",
+    icon: "ShoppingCart"
+  },
+  {
+    label: "Bounce Rate",
+    value: "32.1%",
+    change: -4.2,
+    trend: "up",
+    icon: "ArrowLeft"
+  },
+  {
+    label: "Email Subscribers",
+    value: "89,254",
+    change: 22.1,
+    trend: "up",
+    icon: "Mail"
+  },
+  {
+    label: "Return Customer Rate",
+    value: "67.8%",
+    change: 9.4,
+    trend: "up",
+    icon: "RotateCcw"
   }
 ];
 
 // Chart data for revenue over time
 export const revenueChartData: ChartData[] = [
-  { name: "Jan", value: 45000, revenue: 45000, users: 1200, sessions: 8400 },
-  { name: "Feb", value: 52000, revenue: 52000, users: 1350, sessions: 9200 },
-  { name: "Mar", value: 48000, revenue: 48000, users: 1280, sessions: 8800 },
-  { name: "Apr", value: 61000, revenue: 61000, users: 1420, sessions: 9800 },
-  { name: "May", value: 55000, revenue: 55000, users: 1380, sessions: 9400 },
-  { name: "Jun", value: 67000, revenue: 67000, users: 1520, sessions: 10600 },
-  { name: "Jul", value: 72000, revenue: 72000, users: 1680, sessions: 11200 },
-  { name: "Aug", value: 69000, revenue: 69000, users: 1640, sessions: 10900 },
-  { name: "Sep", value: 78000, revenue: 78000, users: 1750, sessions: 12100 },
-  { name: "Oct", value: 82000, revenue: 82000, users: 1820, sessions: 12800 },
-  { name: "Nov", value: 76000, revenue: 76000, users: 1720, sessions: 11800 },
-  { name: "Dec", value: 89000, revenue: 89000, users: 1950, sessions: 13500 }
+  { name: "Jan", value: 187000, revenue: 187000, users: 4200, sessions: 28400 },
+  { name: "Feb", value: 234000, revenue: 234000, users: 4850, sessions: 32200 },
+  { name: "Mar", value: 198000, revenue: 198000, users: 4280, sessions: 28800 },
+  { name: "Apr", value: 287000, revenue: 287000, users: 5420, sessions: 38900 },
+  { name: "May", value: 265000, revenue: 265000, users: 5180, sessions: 34400 },
+  { name: "Jun", value: 324000, revenue: 324000, users: 6520, sessions: 42600 },
+  { name: "Jul", value: 389000, revenue: 389000, users: 7680, sessions: 48200 },
+  { name: "Aug", value: 356000, revenue: 356000, users: 7240, sessions: 45900 },
+  { name: "Sep", value: 428000, revenue: 428000, users: 8750, sessions: 54100 },
+  { name: "Oct", value: 467000, revenue: 467000, users: 9420, sessions: 58800 },
+  { name: "Nov", value: 398000, revenue: 398000, users: 8720, sessions: 51800 },
+  { name: "Dec", value: 523000, revenue: 523000, users: 10950, sessions: 67500 }
 ];
 
 // Pie chart data for traffic sources
 export const trafficSourceData: ChartData[] = [
-  { name: "Organic Search", value: 45, color: "hsl(var(--chart-1))" },
-  { name: "Paid Ads", value: 28, color: "hsl(var(--chart-2))" },
-  { name: "Social Media", value: 15, color: "hsl(var(--chart-3))" },
-  { name: "Direct", value: 8, color: "hsl(var(--chart-4))" },
-  { name: "Referral", value: 4, color: "hsl(var(--chart-5))" }
+  { name: "Organic Search", value: 42, color: "hsl(var(--chart-1))" },
+  { name: "Paid Advertising", value: 28, color: "hsl(var(--chart-2))" },
+  { name: "Social Media", value: 18, color: "hsl(var(--chart-3))" },
+  { name: "Direct Traffic", value: 8, color: "hsl(var(--chart-4))" },
+  { name: "Email Marketing", value: 4, color: "hsl(var(--chart-5))" }
 ];
 
 // Table data for campaign performance
 export const campaignTableData: TableData[] = [
   {
     id: "1",
-    campaign: "Summer Sale 2024",
-    impressions: 125000,
-    clicks: 3250,
-    ctr: 2.6,
-    spend: 4500,
-    revenue: 18750,
-    roas: 4.17,
+    campaign: "Black Friday 2024 Mega Sale",
+    impressions: 2540000,
+    clicks: 127000,
+    ctr: 5.0,
+    spend: 45000,
+    revenue: 287500,
+    roas: 6.39,
     status: "active",
     lastModified: "2024-01-15"
   },
   {
     id: "2",
-    campaign: "Holiday Campaign",
-    impressions: 89000,
-    clicks: 2890,
-    ctr: 3.2,
-    spend: 3200,
-    revenue: 14600,
-    roas: 4.56,
+    campaign: "Holiday Shopping Campaign",
+    impressions: 1890000,
+    clicks: 94500,
+    ctr: 5.0,
+    spend: 32000,
+    revenue: 198400,
+    roas: 6.20,
     status: "active",
     lastModified: "2024-01-14"
   },
   {
     id: "3",
-    campaign: "Back to School",
-    impressions: 67000,
-    clicks: 1340,
-    ctr: 2.0,
-    spend: 2800,
-    revenue: 8950,
-    roas: 3.20,
-    status: "paused",
+    campaign: "Spring Collection Launch",
+    impressions: 1267000,
+    clicks: 50680,
+    ctr: 4.0,
+    spend: 28000,
+    revenue: 145600,
+    roas: 5.20,
+    status: "active",
     lastModified: "2024-01-12"
   },
   {
     id: "4",
     campaign: "Brand Awareness Q4",
-    impressions: 145000,
-    clicks: 4350,
-    ctr: 3.0,
-    spend: 5200,
-    revenue: 21800,
-    roas: 4.19,
+    impressions: 3450000,
+    clicks: 172500,
+    ctr: 5.0,
+    spend: 52000,
+    revenue: 312000,
+    roas: 6.00,
     status: "active",
     lastModified: "2024-01-15"
   },
   {
     id: "5",
-    campaign: "Product Launch",
-    impressions: 78000,
-    clicks: 2106,
-    ctr: 2.7,
-    spend: 3600,
-    revenue: 12400,
-    roas: 3.44,
-    status: "completed",
+    campaign: "Product Launch - Smart Home",
+    impressions: 1780000,
+    clicks: 89000,
+    ctr: 5.0,
+    spend: 36000,
+    revenue: 216000,
+    roas: 6.00,
+    status: "active",
     lastModified: "2024-01-10"
   },
   {
     id: "6",
-    campaign: "Retargeting Campaign",
-    impressions: 54000,
-    clicks: 2160,
-    ctr: 4.0,
-    spend: 2400,
-    revenue: 9800,
-    roas: 4.08,
+    campaign: "Retargeting High Intent Users",
+    impressions: 540000,
+    clicks: 43200,
+    ctr: 8.0,
+    spend: 24000,
+    revenue: 168000,
+    roas: 7.00,
+    status: "active",
+    lastModified: "2024-01-13"
+  },
+  {
+    id: "7",
+    campaign: "Summer Fashion Collection",
+    impressions: 2100000,
+    clicks: 105000,
+    ctr: 5.0,
+    spend: 42000,
+    revenue: 252000,
+    roas: 6.00,
+    status: "paused",
+    lastModified: "2024-01-11"
+  },
+  {
+    id: "8",
+    campaign: "Mobile App Download Campaign",
+    impressions: 1560000,
+    clicks: 78000,
+    ctr: 5.0,
+    spend: 28000,
+    revenue: 154000,
+    roas: 5.50,
+    status: "active",
+    lastModified: "2024-01-09"
+  },
+  {
+    id: "9",
+    campaign: "Valentine's Day Special",
+    impressions: 890000,
+    clicks: 44500,
+    ctr: 5.0,
+    spend: 18000,
+    revenue: 126000,
+    roas: 7.00,
+    status: "completed",
+    lastModified: "2024-01-08"
+  },
+  {
+    id: "10",
+    campaign: "Customer Loyalty Program",
+    impressions: 670000,
+    clicks: 40200,
+    ctr: 6.0,
+    spend: 15000,
+    revenue: 108000,
+    roas: 7.20,
+    status: "active",
+    lastModified: "2024-01-07"
+  },
+  {
+    id: "11",
+    campaign: "Video Ad Series - Tech Products",
+    impressions: 2890000,
+    clicks: 144500,
+    ctr: 5.0,
+    spend: 58000,
+    revenue: 348000,
+    roas: 6.00,
+    status: "active",
+    lastModified: "2024-01-14"
+  },
+  {
+    id: "12",
+    campaign: "Influencer Collaboration Campaign",
+    impressions: 1240000,
+    clicks: 74400,
+    ctr: 6.0,
+    spend: 25000,
+    revenue: 175000,
+    roas: 7.00,
     status: "active",
     lastModified: "2024-01-13"
   }

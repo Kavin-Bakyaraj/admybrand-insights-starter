@@ -16,6 +16,13 @@ import {
   generateRealTimeData,
   type MetricData
 } from "@/data/mockData";
+import {
+  deviceData,
+  geographicData,
+  hourlyData,
+  ageData,
+  funnelData
+} from "@/data/additionalData";
 
 export default function Dashboard() {
   const [currentMetrics, setCurrentMetrics] = useState<MetricData[]>(metricsData);
@@ -133,8 +140,17 @@ export default function Dashboard() {
             Key Performance Indicators
           </motion.h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {currentMetrics.map((metric, index) => (
+            {currentMetrics.slice(0, 4).map((metric, index) => (
               <MetricCard key={metric.label} metric={metric} index={index} />
+            ))}
+          </div>
+        </section>
+
+        {/* Additional Metrics Row */}
+        <section>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {currentMetrics.slice(4, 8).map((metric, index) => (
+              <MetricCard key={metric.label} metric={metric} index={index + 4} />
             ))}
           </div>
         </section>
@@ -197,6 +213,86 @@ export default function Dashboard() {
             type="bar"
             dataKey="sessions"
             index={3}
+            height={300}
+          />
+        </section>
+
+        {/* Additional Analytics Section */}
+        <section>
+          <motion.h2 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-xl font-semibold text-foreground mb-6"
+          >
+            Additional Insights
+          </motion.h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
+            <ChartCard
+              title="Device Breakdown"
+              data={deviceData}
+              type="pie"
+              dataKey="value"
+              index={4}
+              height={280}
+            />
+            
+            <ChartCard
+              title="Age Demographics"
+              data={ageData}
+              type="pie"
+              dataKey="value"
+              index={5}
+              height={280}
+            />
+            
+            <ChartCard
+              title="Geographic Revenue"
+              data={geographicData}
+              type="bar"
+              dataKey="revenue"
+              index={6}
+              height={280}
+            />
+          </div>
+        </section>
+
+        {/* Hourly Performance */}
+        <section>
+          <motion.h2 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="text-xl font-semibold text-foreground mb-6"
+          >
+            Today's Hourly Performance
+          </motion.h2>
+          <ChartCard
+            title="Hourly Activity"
+            data={hourlyData}
+            type="area"
+            dataKey="value"
+            index={7}
+            height={300}
+          />
+        </section>
+        
+        {/* Conversion Funnel */}
+        <section>
+          <motion.h2 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="text-xl font-semibold text-foreground mb-6"
+          >
+            Conversion Funnel
+          </motion.h2>
+          <ChartCard
+            title="Sales Funnel Analysis"
+            data={funnelData}
+            type="bar"
+            dataKey="users"
+            index={8}
             height={300}
           />
         </section>

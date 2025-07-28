@@ -192,7 +192,7 @@ export function DataTable({ data, title }: DataTableProps) {
     },
     initialState: {
       pagination: {
-        pageSize: 5,
+        pageSize: 8,
       },
     },
   });
