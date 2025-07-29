@@ -12,7 +12,103 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+
 import { cn } from "@/lib/utils";
+
+// --- Data Generator Functions (restored) ---
+function generateTrafficSourceData() {
+  return [
+    { name: "Organic Search", value: Math.round(40000 + Math.random() * 10000) },
+    { name: "Paid Search", value: Math.round(25000 + Math.random() * 8000) },
+    { name: "Social", value: Math.round(18000 + Math.random() * 6000) },
+    { name: "Referral", value: Math.round(12000 + Math.random() * 4000) },
+    { name: "Direct", value: Math.round(10000 + Math.random() * 3000) },
+  ];
+}
+
+function generateDeviceData() {
+  return [
+    { name: "Desktop", value: Math.round(35000 + Math.random() * 8000) },
+    { name: "Mobile", value: Math.round(42000 + Math.random() * 9000) },
+    { name: "Tablet", value: Math.round(9000 + Math.random() * 2000) },
+  ];
+}
+
+function generateAgeData() {
+  return [
+    { name: "18-24", value: Math.round(8000 + Math.random() * 2000) },
+    { name: "25-34", value: Math.round(18000 + Math.random() * 4000) },
+    { name: "35-44", value: Math.round(16000 + Math.random() * 3000) },
+    { name: "45-54", value: Math.round(12000 + Math.random() * 2000) },
+    { name: "55+", value: Math.round(7000 + Math.random() * 1500) },
+  ];
+}
+
+function generateGeographicData() {
+  return [
+    { name: "USA", revenue: Math.round(90000 + Math.random() * 20000) },
+    { name: "India", revenue: Math.round(70000 + Math.random() * 15000) },
+    { name: "UK", revenue: Math.round(40000 + Math.random() * 10000) },
+    { name: "Germany", revenue: Math.round(30000 + Math.random() * 8000) },
+    { name: "Canada", revenue: Math.round(25000 + Math.random() * 6000) },
+    { name: "Australia", revenue: Math.round(20000 + Math.random() * 5000) },
+  ];
+}
+
+function generateHourlyData() {
+  const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
+  return hours.map((hour, idx) => ({
+    name: hour,
+    value: Math.round(2000 + Math.sin(idx / 3) * 800 + Math.random() * 400),
+  }));
+}
+
+function generateFunnelData() {
+  // Simulate a funnel: Visitors > Product Views > Add to Cart > Purchases
+  const base = 100000 + Math.random() * 20000;
+  const productViews = base * (0.65 + Math.random() * 0.05);
+  const addToCart = productViews * (0.35 + Math.random() * 0.05);
+  const purchases = addToCart * (0.45 + Math.random() * 0.05);
+  return [
+    { name: "Visitors", users: Math.round(base) },
+    { name: "Product Views", users: Math.round(productViews) },
+    { name: "Add to Cart", users: Math.round(addToCart) },
+    { name: "Purchases", users: Math.round(purchases) },
+  ];
+}
+
+function generateVariedMetrics(metrics, randomize = false) {
+  return metrics.map(metric => {
+    let value = metric.value;
+    let change = metric.change;
+    let trend = metric.trend;
+    if (randomize) {
+      // Try to parse the value as a number, otherwise keep as string
+      const num = parseFloat((value + '').replace(/[^\d.]/g, ''));
+      if (!isNaN(num)) {
+        // Add some random variation
+        const varied = num * (0.98 + Math.random() * 0.04);
+        if (typeof value === 'string' && value.includes('%')) {
+          value = varied.toFixed(2) + '%';
+        } else if (typeof value === 'string' && value.includes('$')) {
+          value = '$' + varied.toLocaleString(undefined, { maximumFractionDigits: 2 });
+        } else if (typeof value === 'string' && value.includes('m')) {
+          value = (varied / 1000000).toFixed(1) + 'm';
+        } else {
+          value = varied.toLocaleString();
+        }
+        // Randomly change trend
+        if (Math.random() > 0.7) {
+          trend = trend === 'up' ? 'down' : 'up';
+        }
+        // Randomly change change value
+        const sign = trend === 'up' ? '+' : '-';
+        change = sign + (Math.random() * 10).toFixed(1) + '%';
+      }
+    }
+    return { ...metric, value, change, trend };
+  });
+}
 
 // Mock data
 const metricsData = [
@@ -605,14 +701,15 @@ export default function Dashboard() {
       "Brand Awareness",
       "App Install Campaign"
     ];
-    
+    // Generate a date for each campaign, spread over the last 12 months
+    const today = new Date();
     return campaigns.map((name, idx) => {
       const baseImpressions = 500000 + (idx * 100000);
       const baseClicks = 25000 + (idx * 5000);
       const baseSpend = 15000 + (idx * 3000);
       const baseRevenue = 50000 + (idx * 15000);
-      const randomDate = new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
-      
+      // Each campaign is assigned a date, one per month
+      const date = new Date(today.getFullYear(), today.getMonth() - (campaigns.length - 1 - idx), 15);
       return {
         campaign: name,
         impressions: Math.round(baseImpressions * (0.8 + Math.random() * 0.4)),
@@ -622,77 +719,9 @@ export default function Dashboard() {
         revenue: Math.round(baseRevenue * (0.8 + Math.random() * 0.4)),
         roas: Number((2 + Math.random() * 2).toFixed(2)),
         status: ["active","paused","completed"][Math.floor(Math.random() * 3)],
-        date: randomDate.toISOString().slice(0, 10) // YYYY-MM-DD
+        date: date.toISOString().slice(0, 10) // YYYY-MM-DD
       };
     });
-  };
-
-  // Fixed traffic source data
-  const generateTrafficSourceData = () => [
-    { name: "Organic Search", value: 35 + Math.round(Math.random() * 10) },
-    { name: "Paid Advertising", value: 28 + Math.round(Math.random() * 8) },
-    { name: "Social Media", value: 20 + Math.round(Math.random() * 6) },
-    { name: "Email Marketing", value: 12 + Math.round(Math.random() * 5) },
-    { name: "Direct Traffic", value: 5 + Math.round(Math.random() * 3) }
-  ];
-
-  const generateDeviceData = () => [
-    { name: "Desktop", value: 45 + Math.round(Math.random() * 10) },
-    { name: "Mobile", value: 40 + Math.round(Math.random() * 10) },
-    { name: "Tablet", value: 15 + Math.round(Math.random() * 5) }
-  ];
-
-  const generateAgeData = () => [
-    { name: "18-24", value: 22 + Math.round(Math.random() * 8) },
-    { name: "25-34", value: 35 + Math.round(Math.random() * 10) },
-    { name: "35-44", value: 28 + Math.round(Math.random() * 8) },
-    { name: "45-54", value: 12 + Math.round(Math.random() * 5) },
-    { name: "55+", value: 3 + Math.round(Math.random() * 3) }
-  ];
-
-  const generateGeographicData = () => [
-    { name: "United States", revenue: 120000 + Math.round(Math.random() * 50000) },
-    { name: "United Kingdom", revenue: 85000 + Math.round(Math.random() * 30000) },
-    { name: "Canada", revenue: 65000 + Math.round(Math.random() * 25000) },
-    { name: "Australia", revenue: 45000 + Math.round(Math.random() * 20000) },
-    { name: "Germany", revenue: 38000 + Math.round(Math.random() * 15000) }
-  ];
-
-  const generateHourlyData = () => {
-    const hours = ["00:00", "02:00", "04:00", "06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"];
-    return hours.map(hour => ({
-      name: hour,
-      value: Math.round(Math.random() * 3000 + 500),
-      users: Math.round(Math.random() * 2000 + 300),
-      sessions: Math.round(Math.random() * 2500 + 400)
-    }));
-  };
-
-  const generateFunnelData = () => {
-    const baseValues = [100000, 45000, 12000, 8500, 6200];
-    return [
-      { name: "Visitors", users: Math.round(baseValues[0] * (0.9 + Math.random() * 0.2)) },
-      { name: "Product Views", users: Math.round(baseValues[1] * (0.9 + Math.random() * 0.2)) },
-      { name: "Add to Cart", users: Math.round(baseValues[2] * (0.9 + Math.random() * 0.2)) },
-      { name: "Checkout", users: Math.round(baseValues[3] * (0.9 + Math.random() * 0.2)) },
-      { name: "Purchase", users: Math.round(baseValues[4] * (0.9 + Math.random() * 0.2)) }
-    ];
-  };
-
-  const generateVariedMetrics = (baseMetrics: any[], isRealTime: boolean) => {
-    if (!isRealTime) return baseMetrics;
-    
-    return baseMetrics.map(metric => ({
-      ...metric,
-      value: typeof metric.value === 'string' && metric.value.includes('$') 
-        ? `$${(parseInt(metric.value.replace(/[$,]/g, '')) * (0.95 + Math.random() * 0.1)).toLocaleString()}`
-        : typeof metric.value === 'string' && metric.value.includes('%')
-        ? `${(parseFloat(metric.value) * (0.95 + Math.random() * 0.1)).toFixed(1)}%`
-        : typeof metric.value === 'string' && metric.value.includes('m')
-        ? `${(parseFloat(metric.value) * (0.95 + Math.random() * 0.1)).toFixed(0)}m ${metric.value.split(' ')[1] || ''}`
-        : metric.value,
-      change: `${Math.random() > 0.5 ? '+' : '-'}${(Math.random() * 15 + 1).toFixed(1)}%`
-    }));
   };
 
   // State management
@@ -713,12 +742,11 @@ export default function Dashboard() {
   // Real-time data simulation
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    
     if (isRealTime) {
       interval = setInterval(() => {
         // Update metrics
         setCurrentMetrics(generateVariedMetrics(metricsData, true));
-        
+
         // Update chart data with variations - FIXED STRUCTURE
         const updatedChartData = baseYearlyData.map(item => ({
           ...item,
@@ -728,9 +756,8 @@ export default function Dashboard() {
           sessions: Math.round(item.sessions * (0.95 + Math.random() * 0.1)),
           value: Math.round(item.revenue * (0.95 + Math.random() * 0.1)) // For area charts
         }));
-        
         setFilteredChartData(updatedChartData);
-        
+
         // Update campaign data
         setCurrentCampaignData(prev => prev.map(campaign => ({
           ...campaign,
@@ -741,7 +768,7 @@ export default function Dashboard() {
           revenue: Math.round(campaign.revenue * (0.98 + Math.random() * 0.04)),
           roas: Number((campaign.roas * (0.95 + Math.random() * 0.1)).toFixed(2))
         })));
-        
+
         // Update other chart data
         setTrafficSourceData(generateTrafficSourceData());
         setDeviceData(generateDeviceData());
@@ -749,7 +776,7 @@ export default function Dashboard() {
         setGeographicData(generateGeographicData());
         setHourlyData(generateHourlyData());
         setFunnelData(generateFunnelData());
-        
+
         setLastUpdated(new Date());
       }, 2000); // Update every 2 seconds
     } else {
@@ -764,7 +791,6 @@ export default function Dashboard() {
       setHourlyData(generateHourlyData());
       setFunnelData(generateFunnelData());
     }
-
     return () => {
       if (interval) clearInterval(interval);
     };
