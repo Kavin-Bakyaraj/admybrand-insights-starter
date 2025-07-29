@@ -1,3 +1,23 @@
+  const exportToPDF = async () => {
+    const jsPDF = (await import('jspdf')).default;
+    const autoTable = (await import('jspdf-autotable')).default;
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text(String(title), 10, 20);
+    // Table headers and rows
+    const headers = Object.keys(data[0] || {});
+    const rows = data.map(row => headers.map(h => String(row[h])));
+    autoTable(doc, {
+      head: [headers],
+      body: rows,
+      startY: 28,
+      theme: 'grid',
+      styles: { fontSize: 10 },
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+    doc.save(`${String(title).toLowerCase().replace(/\s+/g, '_')}_data.pdf`);
+  };
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -75,11 +95,14 @@ export function DataTable({ data, title }: DataTableProps) {
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="text-foreground">
-          {row.getValue<number>("impressions").toLocaleString()}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const val = row.getValue<number>("impressions");
+        return (
+          <div className="text-foreground">
+            {typeof val === "number" ? val.toLocaleString() : String(val || "")}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "clicks",
@@ -93,20 +116,32 @@ export function DataTable({ data, title }: DataTableProps) {
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="text-foreground">
-          {row.getValue<number>("clicks").toLocaleString()}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const val = row.getValue<number>("clicks");
+        return (
+          <div className="text-foreground">
+            {typeof val === "number" ? val.toLocaleString() : String(val || "")}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "ctr",
       header: "CTR",
-      cell: ({ row }) => (
-        <div className="text-foreground">
-          {row.getValue<number>("ctr").toFixed(1)}%
-        </div>
-      ),
+      cell: ({ row }) => {
+        const val = row.getValue("ctr");
+        let display = "";
+        if (typeof val === "number" && isFinite(val)) {
+          display = val.toFixed(1);
+        } else {
+          display = String(val ?? "");
+        }
+        return (
+          <div className="text-foreground">
+            {display}%
+          </div>
+        );
+      },
     },
     {
       accessorKey: "spend",
@@ -120,11 +155,14 @@ export function DataTable({ data, title }: DataTableProps) {
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="text-foreground font-medium">
-          ${row.getValue<number>("spend").toLocaleString()}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const val = row.getValue<number>("spend");
+        return (
+          <div className="text-foreground font-medium">
+            ${typeof val === "number" ? val.toLocaleString() : String(val || "")}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "revenue",
@@ -138,20 +176,32 @@ export function DataTable({ data, title }: DataTableProps) {
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="text-success font-medium">
-          ${row.getValue<number>("revenue").toLocaleString()}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const val = row.getValue<number>("revenue");
+        return (
+          <div className="text-success font-medium">
+            ${typeof val === "number" ? val.toLocaleString() : String(val || "")}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "roas",
       header: "ROAS",
-      cell: ({ row }) => (
-        <div className="text-foreground font-medium">
-          {row.getValue<number>("roas").toFixed(2)}x
-        </div>
-      ),
+      cell: ({ row }) => {
+        const val = row.getValue("roas");
+        let display = "";
+        if (typeof val === "number" && isFinite(val)) {
+          display = val.toFixed(2) + "x";
+        } else {
+          display = String(val ?? "");
+        }
+        return (
+          <div className="text-foreground font-medium">
+            {display}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "status",
@@ -236,6 +286,15 @@ export function DataTable({ data, title }: DataTableProps) {
             >
               <Download className="mr-2 h-4 w-4" />
               Export CSV
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={exportToPDF}
+              className="shrink-0"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Export PDF
             </Button>
           </div>
         </CardHeader>

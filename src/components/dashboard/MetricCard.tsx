@@ -52,7 +52,7 @@ export function MetricCard({ metric, index = 0 }: MetricCardProps) {
             <div className="text-2xl font-bold text-foreground">{value}</div>
             <div className="flex items-center space-x-1 text-xs">
               <span className={cn("font-medium", trendColor[trend])}>
-                {change > 0 ? '+' : ''}{change.toFixed(1)}%
+                {typeof change === 'number' ? (change > 0 ? '+' : '') + change.toFixed(1) + '%' : String(change)}
               </span>
               <span className="text-muted-foreground">from last month</span>
             </div>
